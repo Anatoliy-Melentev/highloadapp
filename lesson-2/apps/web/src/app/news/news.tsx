@@ -10,20 +10,33 @@ export interface PeaceOfNews {
   createdAt: number
 }
 
+const newsLoc = 'news';
+
 export function News(props: NewsProps) {
   const [news, setNews] = useState([] as PeaceOfNews[]);
   const sortNews = (news: PeaceOfNews[]) => {
     return news.sort((a, b) => a.createdAt - b.createdAt)
   }
 
-  useEffect(() => {
-    fetch('http://localhost:3333/api/news')
-      .then(response => response.json())
-      .then(news => {
-        const sortedNews = sortNews(news);
+  const newsCacheDate = localStorage.getItem(newsLoc + 'Date');
+  const newsCacheData = localStorage.getItem(newsLoc + 'Data');
 
-        setNews(sortedNews);
-      })
+  useEffect(() => {
+    const curDate = new Date().getTime();
+    debugger;
+    if (newsCacheDate && newsCacheData && curDate < Number(newsCacheDate)) {
+      setNews(JSON.parse(newsCacheData));
+    } else {
+      fetch('http://localhost:3333/api/news')
+        .then(response => response.json())
+        .then(news => {
+          const sortedNews = sortNews(news);
+          localStorage.setItem(newsLoc + 'Date', String(curDate + 60 * 60 * 1000));
+          localStorage.setItem(newsLoc + 'Data', JSON.stringify(sortedNews));
+
+          setNews(sortedNews);
+        })
+    }
   }, []);
 
   return (
