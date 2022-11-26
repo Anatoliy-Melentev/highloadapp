@@ -4,7 +4,36 @@
   <meta charset="UTF-8">
   <title>JS test</title>
   <script>
+    const array = [];
+    const set = new Set();
 
+    console.time('arrayPush');
+    for (let i = 0; i < 10000; i++) {
+      array.push(i);
+    }
+    console.timeEnd('arrayPush');
+
+    console.time('setAdd');
+    for (let i = 0; i < 10000; i++) {
+      set.add(i);
+    }
+    console.timeEnd('setAdd');
+
+    console.time('arrayIndexOf');
+    array.indexOf(50000);
+    console.timeEnd('arrayIndexOf');
+
+    console.time('setHas');
+    set.has(50000);
+    console.timeEnd('setHas');
+
+    console.time('arraySpliceDelete');
+    array.splice(array.indexOf(50000));
+    console.timeEnd('arraySpliceDelete');
+
+    console.time('setDelete');
+    set.delete(50000)
+    console.timeEnd('setDelete');
   </script>
 </head>
 <body>
