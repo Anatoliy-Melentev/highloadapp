@@ -23,7 +23,6 @@ export function News(props: NewsProps) {
 
   useEffect(() => {
     const curDate = new Date().getTime();
-    debugger;
     if (newsCacheDate && newsCacheData && curDate < Number(newsCacheDate)) {
       setNews(JSON.parse(newsCacheData));
     } else {
