@@ -13,6 +13,7 @@ export class CreateNewsDto {
 @Controller('news')
 export class NewsController {
   @Get()
+  @Header('Cache-Control', 'no-cache')
   async getNews() {
     return new Promise(resolve => {
       const news = Object.keys([...Array(20)])
